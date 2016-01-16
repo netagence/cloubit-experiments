@@ -14,7 +14,7 @@ DATETIME_MARKER=$(date '+%Y%m%d_%H%M%S')
 LOGFILEPATHNAME="littlebitscloud_$DATETIME_MARKER.log"
 
 clear;
-echo "Littlebits' Cloudbit test"
+echo "Littlebits Cloudbit test"
 echo "Bash version ${BASH_VERSION}"
 
 echo "Test running on your Cloudbit with ID $CLOUDBIT_DEVICEID"
