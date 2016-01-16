@@ -10,6 +10,10 @@
 DATETIME_MARKER=$(date '+%Y%m%d_%H%M%S')
 LOGFILEPATHNAME="/home/littlebitscloud/$DATETIME_MARKER.log"
 
+# YOUR CLOUDBIT PERSONAL PARAMETERS - GET THOSE FROM YOUR SETTNGS AT http://control.littlebitscloud.cc/
+CLOUDBIT_DEVICEID=xxxxxxxxx
+CLOUDBIT_ACCESSTOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 clear;
 echo "Littlebits' Cloudbit test"
 echo "Bash version ${BASH_VERSION}"
