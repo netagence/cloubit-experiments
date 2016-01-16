@@ -3,7 +3,7 @@
 #author          :Pierre MOBIAN
 #date            :20160116
 #version         :0.1    
-#usage           :bash test01.sh or ./test01.sh
+#usage           :bash inittest.sh or ./inittest.sh
 
 ### YOUR CLOUDBIT PERSONAL PARAMETERS - GET THOSE FROM YOUR SETTNGS AT http://control.littlebitscloud.cc/ ###
 CLOUDBITDEVICEID="xxxxxxxxx""
