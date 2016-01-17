@@ -1,5 +1,5 @@
 
-Experiments with cloudbit from Littlebits
+Experiments with cloudBit from Littlebits
 =============
 ### About
 Tests and fun with Littlebits Cloudbit by Arthur (7) and Pierre (his father) from Rennes, France.
