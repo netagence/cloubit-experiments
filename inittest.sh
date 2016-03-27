@@ -1,20 +1,32 @@
 #!/bin/bash
 #description     :Experimenting with Littlebits' Cloudbit by PiAMo (Pierre and Arthur). This test script is made to make sure your Cloudbit is properly functional.
 #author          :Pierre MOBIAN
-#date            :20160116
-#version         :0.1    
+#date            :20160327
+#version         :0.2
 #usage           :bash inittest.sh or ./inittest.sh
 
-### YOUR CLOUDBIT PERSONAL PARAMETERS - GET THOSE FROM YOUR SETTNGS AT http://control.littlebitscloud.cc/ ###
-CLOUDBITDEVICEID="xxxxxxxxx"
-CLOUDBITACCESSTOKEN="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+### CLOUDBIT PERSONAL PARAMETERS - LOADED FROM CLOUDBITCONFIG.CFG ###
 
 ### SCRIPT CONFIG STARTS HERE - DO NOT EDIT UNLESS YOU KNOW WHAT YOU'RE DOING ###
-SCRIPTVERSION="0.1"
+SCRIPTVERSION="0.2"
 DATETIME_MARKER=$(date '+%Y%m%d_%H%M%S')
 LOGFILEPATHNAME="littlebitscloud_$DATETIME_MARKER.log"
 
 ### DO NOT EDIT BELOW ###
+
+configfile='cloudbitconfig.cfg'
+configfile_secured='cloudbitconfig_secured.cfg'
+
+# check if the file contains something we don't want
+if egrep -q -v '^#|^[^ ]*=[^;]*' "$configfile"; then
+  echo "Config file is unclean, cleaning it..." >&2
+  # filter the original to a new file
+  egrep '^#|^[^ ]*=[^;&]*'  "$configfile" > "$configfile_secured"
+  configfile="$configfile_secured"
+fi
+
+# now source it, either the original or the filtered variant
+source "$configfile"
 
 clear;
 echo "Littlebits Cloudbit tests by PiAMo (Pierre + Arthur) - V $SCRIPTVERSION"
@@ -31,7 +43,8 @@ PS3='Please enter your choice: '
 options=(
     "Display infos on your Cloudbit"
     "Test a simple action"
-    "Play a basic dice game"
+    "Play a dice game with the bargraph"
+    "Play a dice game with the number module"
     "Quit"
 )
 
@@ -55,7 +68,7 @@ echo "Powering on your device at 100% for 1 second:"
 		echo ""
 		curl -i -XPOST \
 		-H "Authorization: Bearer $CLOUDBITACCESSTOKEN" \
-		https://api-http.littlebitscloud.cc/v3/devices/$CLOUDBITDEVICEID/output \
+		https://api-http.littlebitscloud.cc/v2/devices/$CLOUDBITDEVICEID/output \
 		-d percent=100 \
 		-d duration_ms=2000
 	
@@ -79,7 +92,7 @@ echo "Pick a number (1 through 5) and I will randomly light the bargraph a few t
 
 	curl -i -XPOST \
 		-H "Authorization: Bearer $CLOUDBITACCESSTOKEN" \
-		https://api-http.littlebitscloud.cc/v3/devices/$CLOUDBITDEVICEID/output \
+		https://api-http.littlebitscloud.cc/v2/devices/$CLOUDBITDEVICEID/output \
 		-d percent=$VALEURLUM \
 		-d duration_ms=1500
 
@@ -90,8 +103,37 @@ echo "Pick a number (1 through 5) and I will randomly light the bargraph a few t
 	done
 	echo ""
 	;;
-        
-	4) break ;;
+
+	        4)
+echo "You must use a Number or Number+ display as the output to play this."
+echo "Pick a number (round digit from 0 to 100) and I will randomly display one the Number module - see if your number comes up :-)"
+
+	echo ""
+	MAXCOUNT=10
+	count=1
+	echo "Playing $MAXCOUNT times"
+	while [ "$count" -le $MAXCOUNT ]      # Generate 10 ($MAXCOUNT) random integers.
+	do
+
+	VALEURLUM=$[ 1 + $[ RANDOM % 100 ]]
+	echo $VALEURLUM;
+
+
+	curl -i -XPOST \
+		-H "Authorization: Bearer $CLOUDBITACCESSTOKEN" \
+		https://api-http.littlebitscloud.cc/v2/devices/$CLOUDBITDEVICEID/output \
+		-d percent=$VALEURLUM \
+		-d duration_ms=1500
+
+	echo ""
+	
+	let "count += 1"  # Increment count.
+	sleep 2
+	done
+	echo ""
+	;;
+
+	5) break ;;
     esac
 done
 

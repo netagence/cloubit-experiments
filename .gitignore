@@ -1,0 +1,4 @@
+# Script-specific stuff
+
+#Never load the personal configuration file
+cloudbitconfig.cfg
