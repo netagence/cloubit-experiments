@@ -5,8 +5,6 @@
 #version         :0.2
 #usage           :bash inittest.sh or ./inittest.sh
 
-### CLOUDBIT PERSONAL PARAMETERS - LOADED FROM CLOUDBITCONFIG.CFG ###
-
 ### SCRIPT CONFIG STARTS HERE - DO NOT EDIT UNLESS YOU KNOW WHAT YOU'RE DOING ###
 SCRIPTVERSION="0.2"
 DATETIME_MARKER=$(date '+%Y%m%d_%H%M%S')
@@ -14,6 +12,7 @@ LOGFILEPATHNAME="littlebitscloud_$DATETIME_MARKER.log"
 
 ### DO NOT EDIT BELOW ###
 
+### CLOUDBIT PERSONAL PARAMETERS - LOADED FROM CLOUDBITCONFIG.CFG ###
 configfile='cloudbitconfig.cfg'
 configfile_secured='cloudbitconfig_secured.cfg'
 
