@@ -44,6 +44,7 @@ options=(
     "Test a simple action"
     "Play a dice game with the bargraph"
     "Play a dice game with the number module"
+    "Motorandom game"
     "Quit"
 )
 
@@ -86,6 +87,7 @@ echo "Pick a number (1 through 5) and I will randomly light the bargraph a few t
 	do
 
 	VALEURLUM=$[ 1 + $[ RANDOM % 100 ]]
+	printf '%.*f\n' 0
 	echo $VALEURLUM;
 
 
@@ -114,7 +116,7 @@ echo "Pick a number (round digit from 0 to 100) and I will randomly display one 
 	while [ "$count" -le $MAXCOUNT ]      # Generate 10 ($MAXCOUNT) random integers.
 	do
 
-	VALEURLUM=$[ 1 + $[ RANDOM % 100 ]]
+	VALEURLUM=$[ 1 + $[ RANDOM % 10 ]]
 	echo $VALEURLUM;
 
 
@@ -122,7 +124,7 @@ echo "Pick a number (round digit from 0 to 100) and I will randomly display one 
 		-H "Authorization: Bearer $CLOUDBITACCESSTOKEN" \
 		https://api-http.littlebitscloud.cc/v2/devices/$CLOUDBITDEVICEID/output \
 		-d percent=$VALEURLUM \
-		-d duration_ms=1500
+		-d duration_ms=2000
 
 	echo ""
 	
@@ -132,7 +134,25 @@ echo "Pick a number (round digit from 0 to 100) and I will randomly display one 
 	echo ""
 	;;
 
-	5) break ;;
+	        5)
+echo "The motor will turn for a random number of seconds."
+echo "Great to play the motorandom game"
+
+	echo ""
+
+	NOMBRESEC=$[ 1 + $[ RANDOM % 10 ]]
+	echo $NOMBRESEC;
+
+	curl -i -XPOST \
+		-H "Authorization: Bearer $CLOUDBITACCESSTOKEN" \
+		https://api-http.littlebitscloud.cc/v2/devices/$CLOUDBITDEVICEID/output \
+		-d percent=100 \
+		-d duration_ms=2000
+
+	echo ""
+	;;
+
+	6) break ;;
     esac
 done
 
